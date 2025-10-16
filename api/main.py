@@ -1,10 +1,20 @@
 #importing fastapi library
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 #initiallize the FastAPI application
 app = FastAPI(
     title="FastAPI Example",
     description="This is an example of using FastAPI"
+)
+
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # star means all client urls allowed 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 #define endpoints or routes (what are the paths that will be taken care of)
