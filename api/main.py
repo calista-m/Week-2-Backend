@@ -1,6 +1,7 @@
 #importing fastapi library
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import random
 
 #initiallize the FastAPI application
 app = FastAPI(
@@ -16,6 +17,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+FOOD_CHOICES = [
+    "Pizza 🍕",
+    "Tacos 🌮",
+    "Sushi 🍣",
+    "Classic Burger 🍔",
+    "Thai Curry 🌶️",    
+    "Grilled Cheese & Tomato 🍅",
+    "Chicken Shawarma 🐔",
+    "Vegan Bowl 🥗",
+    "Pho Noodle Soup 🍲"
+]
 
 #define endpoints or routes (what are the paths that will be taken care of)
 @app.get('/')
@@ -38,3 +52,15 @@ def get_example2(name):    # can also pass in parameters
     This endpoint takes in a parameter called "name"
     """
     return {"message": f"Hello {name}!"}
+
+# When a user sends a GET request to '/random-choice', this function runs.
+@app.get("/random-choice")
+def get_random_food_choice():
+    """
+    Returns a single random food choice from the FOOD_CHOICES list.
+    """
+    # Use the built-in Python 'random' module to pick one item.
+    selected_choice = random.choice(FOOD_CHOICES)
+    
+    # Return a Python dictionary, which FastAPI converts to a JSON response.
+    return {"status": "success", "choice": selected_choice}
